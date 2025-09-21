@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Contact - MoneyMuse{% endblock %}
+
+{% block content %}
+<div class="contact-page d-flex align-items-center justify-content-center py-5">
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            <!-- Contact Form -->
+            <div class="col-lg-7 col-md-12">
+                <div class="glass-card p-4 h-100 animate__animated animate__fadeInLeft">
+                    <h2 class="fw-bold mb-2">Get in Touch</h2>
+                    <p class="text-muted mb-4">We’d love to hear from you! Fill out the form and we’ll respond promptly.</p>
+                    
+                    <form method="POST" action="{{ url_for('contact') }}">
+
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control rounded-3" name="name" placeholder="Enter your name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control rounded-3" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Your Message</label>
+                            <textarea class="form-control rounded-3" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 rounded-3 fw-bold">Send Message</button>
+                      
+                    </form>
+                </div>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-5 col-md-12">
+                <div class="glass-card p-4 h-100 animate__animated animate__fadeInRight d-flex flex-column justify-content-between">
+                    <div>
+                        <h3 class="fw-bold mb-3">Our Contact Info</h3>
+                        <p class="text-muted mb-4">Have questions about MoneyMuse? We're always here to help you manage your finances better.</p>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-primary text-white me-3"><i class="fas fa-envelope"></i></div>
+                            <span>moneymuse.co@gmail.com</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-success text-white me-3"><i class="fas fa-phone-alt"></i></div>
+                            <span>+977-9869899260</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="icon-circle bg-warning text-dark me-3"><i class="fas fa-map-marker-alt"></i></div>
+                            <span>Chitwan, Nepal</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="social-links mt-4">
+                        <a href="https://facebook.com/moneymuse" target="_blank" class="social-btn fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://instagram.com/moneymuse" target="_blank" class="social-btn ig"><i class="fab fa-instagram"></i></a>
+                        <a href="mailto:moneymuse.co@gmail.com" class="social-btn mail"><i class="fas fa-paper-plane"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+.contact-page {
+    min-height: 90vh;
+    background: linear-gradient(135deg, #e6f7f4, #f0faff, #ffffff);
+}
+
+/* Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* Icons */
+.icon-circle {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Social Buttons */
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+.social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: 0.3s;
+}
+.social-btn.fb { background: #1877f2; }
+.social-btn.ig { background: #e4405f; }
+.social-btn.mail { background: #00c897; }
+.social-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* Dark Mode */
+body.dark-mode .contact-page {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+}
+body.dark-mode .glass-card {
+    background: rgba(25, 25, 25, 0.9);
+    color: #f1f1f1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+}
+body.dark-mode .form-label,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode p {
+    color: #eaeaea;
+}
+body.dark-mode input,
+body.dark-mode textarea {
+    background: #1c1c1c;
+    color: #f1f1f1;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #aaa;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .contact-page {
+        padding: 2rem 1rem;
+    }
+    .glass-card {
+        padding: 1.5rem;
+    }
+}
+@media (max-width: 576px) {
+    .icon-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+    .social-btn {
+        width: 35px;
+        height: 35px;
+    }
+}
+</style>
+
+<!-- Animations (requires Animate.css) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MoneyMuse{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="wrapper">
+    <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="{{ url_for('dashboard') }}" class="nav-logo">
+                    <img src="{{ url_for('static', filename='images/moneymuselogo.jpeg') }}" 
+                        alt="Money Muse Logo" class="logo">
+                    <span class="app-name">Money Muse</span>
+                </a>
+                <!-- Collapse Button -->
+                <button class="collapse-btn" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+
+            <div class="sidebar-links">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('dashboard') }}"><i class="fas fa-home"></i><span>Dashboard</span></a>
+                    <a href="{{ url_for('transactions_page') }}"><i class="fas fa-exchange-alt"></i><span>Transactions</span></a>
+                    <a href="{{ url_for('investments') }}"><i class="fas fa-chart-line"></i><span>Investments</span></a>
+                     <a href="{{ url_for('budgets') }}"><i class="fas fa-wallet"></i><span>Budgets</span></a>
+                    <a href="{{ url_for('about') }}"><i class="fas fa-info-circle"></i><span>About</span></a>
+                    <a href="{{ url_for('contact') }}"><i class="fas fa-envelope"></i><span>Contact</span></a>
+
+                    <div class="sidebar-extra">
+                        <a href="#" id="darkModeToggle"><i class="fas fa-moon"></i><span>Dark Mode</span></a>
+                        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i><span>Login</span></a>
+                    <a href="{{ url_for('register') }}"><i class="fas fa-user-plus"></i><span>Register</span></a>
+                {% endif %}
+            </div>
+        </nav>
+
+
+    <!-- Main Page Content -->
+    <main class="main-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+
+        <!-- Footer -->
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-left">
+                    <span class="footer-logo">💰 MoneyMuse</span>
+                    <p>Smart Finance Tracking for Everyone</p>
+                </div>
+                <div class="footer-right">
+                    <a href="https://www.facebook.com/MoneyMuse" target="_blank" class="social-link">
+                        <i class="fab fa-facebook-f"></i> MoneyMuse
+                    </a>
+                    <a href="https://www.instagram.com/moneymuse" target="_blank" class="social-link">
+                        <i class="fab fa-instagram"></i> @moneymuse
+                    </a>
+                    <a href="mailto:moneymuse.co@gmail.com" class="social-link">
+                        <i class="fas fa-envelope"></i> moneymuse.co@gmail.com
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MoneyMuse. All Rights Reserved.</p>
+            </div>
+        </footer>
+
+
+<script>
+// Function to enable or disable dark mode
+function setDarkMode(isDark) {
+    if (isDark) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled");
+    } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled");
+    }
+}
+
+// Toggle when clicked
+document.getElementById("darkModeToggle").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.body.classList.contains("dark-mode") 
+        ? setDarkMode(false) 
+        : setDarkMode(true);
+});
+
+// Load user preference on page load
+window.onload = function() {
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
+    }
+};
+</script>
+<script>
+const sidebar = document.getElementById("sidebar");
+const toggleBtn = document.getElementById("sidebarToggle");
+
+// Load preference on page load
+if (localStorage.getItem("sidebarState") === "collapsed") {
+    sidebar.classList.add("collapsed");
+}
+
+// Toggle when button clicked
+toggleBtn.addEventListener("click", function() {
+    sidebar.classList.toggle("collapsed");
+
+    if (sidebar.classList.contains("collapsed")) {
+        localStorage.setItem("sidebarState", "collapsed");
+    } else {
+        localStorage.setItem("sidebarState", "expanded");
+    }
+});
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

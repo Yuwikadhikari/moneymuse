@@ -1,0 +1,63 @@
+{% extends "admin_base.html" %}
+{% block title %}Admin - Users{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+  <div class="col-md-4">
+    <a href="{{ url_for('admin_dashboard') }}" class="text-decoration-none">
+      <div class="card text-white bg-primary shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Users</h5>
+          <h3>{{ total_users }}</h3>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('admin_messages') }}" class="text-decoration-none">
+      <div class="card text-white bg-success shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Messages</h5>
+          <h3>{{ total_messages }}</h3>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{{ url_for('admin_dashboard') }}" class="text-decoration-none">
+      <div class="card text-white bg-dark shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Admins</h5>
+          <h3>{{ total_admins }}</h3>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- Users Table -->
+<h4 class="mt-4">All Users</h4>
+<table class="table table-bordered table-striped">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

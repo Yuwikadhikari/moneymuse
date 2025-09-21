@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - MoneyMuse{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    /* Dashboard Styling */
+    .summary-card {
+        border: none;
+        border-radius: 16px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
+    .summary-title {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 0.3rem;
+    }
+    .summary-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+    .chart-card {
+        border-radius: 16px;
+        border: none;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        padding: 1.2rem;
+    }
+</style>
+
+<div class="container py-4">
+    <h2 class="mb-4 fw-bold">📊 Dashboard</h2>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4 g-3">
+        <div class="col-md-4">
+            <div class="card summary-card p-3">
+                <h6 class="summary-title">Total Income</h6>
+                <h4 class="summary-value text-success">Rs. {{ total_income }}</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card summary-card p-3">
+                <h6 class="summary-title">Total Expenses</h6>
+                <h4 class="summary-value text-danger">Rs. {{ total_expense }}</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card summary-card p-3">
+                <h6 class="summary-title">Balance</h6>
+                <h4 class="summary-value text-primary">Rs. {{ balance }}</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-4">
+        <!-- Bar Chart -->
+        <div class="col-md-6">
+            <div class="card chart-card">
+                <h5 class="mb-3">Income vs Expenses</h5>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Line Chart -->
+        <div class="col-md-6">
+            <div class="card chart-card">
+                <h5 class="mb-3">Balance Trend (Monthly)</h5>
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Month Labels
+const monthLabels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+// Custom Tooltip with Rs.
+const currencyFormat = (value) => "Rs. " + value.toLocaleString();
+
+// Bar Chart
+const ctxBar = document.getElementById('barChart').getContext('2d');
+new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+        labels: monthLabels,
+        datasets: [
+            {
+                label: 'Income',
+                data: {{ income_data|tojson }},
+                backgroundColor: 'rgba(54,162,235,0.7)',
+                borderRadius: 8
+            },
+            {
+                label: 'Expenses',
+                data: {{ expense_data|tojson }},
+                backgroundColor: 'rgba(255,99,132,0.7)',
+                borderRadius: 8
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return context.dataset.label + ": " + currencyFormat(context.raw);
+                    }
+                }
+            },
+            legend: { position: 'top' }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Line Chart (Balance Trend)
+const ctxLine = document.getElementById('lineChart').getContext('2d');
+const gradient = ctxLine.createLinearGradient(0, 0, 0, 400);
+gradient.addColorStop(0, 'rgba(40,167,69,0.3)');
+gradient.addColorStop(1, 'rgba(40,167,69,0)');
+
+new Chart(ctxLine, {
+    type: 'line',
+    data: {
+        labels: monthLabels,
+        datasets: [{
+            label: 'Balance',
+            data: {{ balance_data|tojson }},
+            borderColor: '#28a745',
+            backgroundColor: gradient,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 5,
+            pointBackgroundColor: '#28a745'
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return "Balance: " + currencyFormat(context.raw);
+                    }
+                }
+            },
+            legend: { position: 'top' }
+        },
+        scales: {
+            y: { beginAtZero: true },
+            x: { title: { display: true, text: 'Month' } }
+        }
+    }
+});
+</script>
+{% endblock %}

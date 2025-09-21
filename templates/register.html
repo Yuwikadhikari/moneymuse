@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Register - MoneyMuse{% endblock %}
+
+{% block content %}
+<div class="auth-container d-flex justify-content-center align-items-center py-5">
+    <div class="row w-100 justify-content-center">
+        <!-- Info Card -->
+        <div class="col-md-5 d-none d-md-block">
+            <div class="info-card glass-card h-100 p-4 d-flex flex-column justify-content-center text-dark">
+                <h2 class="fw-bold mb-3">Why Join <span class="highlight">MoneyMuse</span>?</h2>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Track income & expenses easily</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Smart budgets & savings alerts</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-success"></i> Manage investments in one place</li>
+                </ul>
+                <p class="small mt-3 text-muted">Start your financial journey with confidence 🚀</p>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="col-md-5">
+            <div class="auth-box glass-card p-4 shadow-lg text-dark">
+                <h2 class="auth-title text-center">Create Account</h2>
+                <p class="auth-subtitle text-center mb-4 text-muted">Join MoneyMuse today</p>
+                
+                <form method="POST" class="auth-form">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control"
+                            pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
+                            placeholder="example@gmail.com" required>
+                        <small class="text-muted">Only @gmail.com emails are allowed</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Register</button>
+                    <p class="auth-switch text-center mt-3">
+                        Already have an account?
+                        <a href="{{ url_for('login') }}" class="fw-bold text-success">Login</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.auth-container {
+    min-height: 90vh;
+    background: linear-gradient(135deg, #e6f7f4, #f0faff, #ffffff);
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.highlight {
+    color: #00b894;
+}
+.auth-box input {
+    border-radius: 8px;
+    padding: 10px;
+}
+.auth-box button {
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: bold;
+}
+</style>
+{% endblock %}

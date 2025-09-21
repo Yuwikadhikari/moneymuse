@@ -1,0 +1,646 @@
+:root {
+    --primary: #1e293b;
+    /* --primary: #202846; */
+    --secondary: #f1f5f9;
+    /* --secondary: #91adca; */
+    --tertiary: #ffffff;
+    --accent: #3b82f6;
+    --success: #10b981;
+    --error: #ef4444;
+}
+/* making income and expenses red and green */
+.income {
+    color: green;
+    font-weight: bold;
+}
+
+.expense {
+    color: red;
+}
+
+em {
+    color: #888;
+    font-style: italic;
+}
+nav a:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+/* Base Layout */
+ body {
+    background-color: var(--secondary);
+    color: #1e293b;
+}
+/* Sidebar Layout */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 230px;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px;
+    position: fixed;  /* stays in place */
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+/* Sidebar Links */
+.sidebar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+
+.sidebar-links a:hover {
+    background: var(--accent);
+    color: white;
+}
+/* Extra links (dark mode, logout) at bottom */
+.sidebar-extra {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+/* Main Content pushes right */
+.main-content {
+    margin-left: 230px;
+    padding: 2rem;
+    flex: 1;
+}
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--tertiary);
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+    color: #333;
+    margin-left: 230px;
+}
+/* Flash messages (optional) */
+.flashes {
+    list-style-type: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.flashes li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.success { background-color: #75a881; color: #155724; }
+.error   { background-color: #f8d7da; color: #721c24; }
+
+/* Ensure dashboard content is properly centered and spaced */
+.dashboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+/* Make sure the transaction list and filter forms are aligned */
+.dashboard-container form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.dashboard-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-container li {
+    background-color: var(--tertiary);
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Optional: style for form elements inside the dashboard */
+.dashboard-container input[type="date"],
+.dashboard-container button {
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    background: var(--primary);
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #4f7296; /* slightly darker */
+}
+
+.transaction-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.transaction-list li.income {
+    color: green;
+}
+
+.transaction-list li.expense {
+    color: red;
+}
+
+/* Footer */
+.footer {
+    background: #1e1e2f;
+    color: #fff;
+    padding: 15px 20px;   /* reduced height */
+    margin-top: 40px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;   /* align items in center */
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.footer-left {
+    max-width: 50%;
+}
+
+.footer-logo {
+    font-size: 1.2rem;    /* slightly smaller */
+    font-weight: bold;
+    color: #00c896; /* accent green */
+    margin-left: 180px;
+}
+
+.footer-left p {
+    font-size: 0.9rem;   /* smaller tagline */
+    color: #ccc;
+    margin-top: 3px;
+    margin-left: 200px;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;   /* reduced spacing between links */
+}
+
+.social-link {
+    color: #ddd;
+    font-size: 0.9rem;   /* smaller font */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s ease;
+}
+
+.social-link i {
+    font-size: 1rem;
+    background: #333;
+    padding: 6px;
+    border-radius: 50%;
+}
+
+.social-link:hover {
+    color: #00c896;
+}
+
+.social-link:hover i {
+    background: #00c896;
+    color: #fff;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 8px;   /* reduced margin */
+    font-size: 0.8rem;
+    color: #aaa;
+    border-top: 1px solid #333;
+    padding-top: 8px;
+}
+
+/* dark mode */
+body.dark-mode {
+    background: #1f2a44;
+    color: #f8f8f8;
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode p,
+body.dark-mode label,
+body.dark-mode li,
+body.dark-mode blockquote {
+    color: #f8f8f8;
+}
+/* card form and dashboard */
+body.dark-mode .form-card,
+body.dark-mode .card,
+body.dark-mode .transaction-list,
+body.dark-mode .dashboard-container,
+body.dark-mode .about-container {
+    background: #243447;
+    color: #f8f8f8;
+    border: 1px solid #1f2a44;
+}
+/* input and button */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background: #1f2a44;
+    color: #f8f8f8;
+    border: 1px solid #3b4a5c;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #bbb;
+}
+
+body.dark-mode button,
+body.dark-mode .btn-submit {
+    background: #00c896;
+    color: #fff;
+    border: none;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .btn-submit:hover {
+    background: #13e6ab;
+}
+/* about */
+body.dark-mode .about-container {
+    background: #243447;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+body.dark-mode .about-quote {
+    background: #2c3e50;
+    border-left: 4px solid #00c896;
+}
+/* contact */
+body.dark-mode .info-section {
+    background: #2c3e50;
+    color: #f8f8f8;
+    border-radius: 16px;
+}
+
+body.dark-mode .info-section h3,
+body.dark-mode .info-section p,
+body.dark-mode .info-section .info-intro {
+    color: #f8f8f8;
+    background: none;
+    box-shadow: none;
+}
+
+body.dark-mode .info-section i {
+    background: #00c896;
+    color: #fff;
+}
+
+body.dark-mode .social-links a {
+    background: #00c896;
+    color: #fff;
+}
+
+body.dark-mode .social-links a:hover {
+    background: #13e6ab;
+}
+/* contact */
+body.dark-mode .footer {
+    background: #0d1b2a;
+    color: #f8f8f8;
+}
+   /* Contact Page – Dark Mode Upgrades */  
+        /* Glassy card with subtle accent border & depth */
+body.dark-mode .form-card {
+  background: linear-gradient(180deg, rgba(22,30,46,0.92), rgba(18,25,39,0.92));
+  border: 1px solid rgba(0, 200, 150, 0.18);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+}
+
+/* Soft divider between form and info on dark */
+body.dark-mode .form-section {
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Inputs: darker fields + teal focus ring glow */
+body.dark-mode .form-group input,
+body.dark-mode .form-group textarea {
+  background: #111a27;
+  color: #f3f7fb;
+  border: 1px solid #2f4056;
+}
+
+body.dark-mode .form-group input::placeholder,
+body.dark-mode .form-group textarea::placeholder {
+  color: #a8b3c3;
+}
+
+body.dark-mode .form-group input:focus,
+body.dark-mode .form-group textarea:focus {
+  border-color: #00c896;
+  box-shadow:
+    0 0 0 3px rgba(0, 200, 150, 0.18),
+    0 0 0 1px #00c896 inset;
+  outline: none;
+}
+
+/* Title & subtitle readability */
+body.dark-mode .form-title { color: #eaf4fc; }
+body.dark-mode .form-subtitle { color: #c5d2e2; }
+
+/* CTA button with lift + glow */
+body.dark-mode .btn-submit {
+  background: linear-gradient(135deg, #00c896, #0fe0b2);
+  color: #0d1b2a;
+  box-shadow: 0 8px 20px rgba(0, 200, 150, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+body.dark-mode .btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(0, 200, 150, 0.35);
+  filter: brightness(1.05);
+}
+
+/* Info panel: layered dark gradient with subtle radial accents */
+body.dark-mode .info-section {
+  background:
+    radial-gradient(1200px 400px at -20% -10%, rgba(0, 200, 150, 0.06), transparent 60%),
+    radial-gradient(800px 300px at 120% 110%, rgba(0, 200, 150, 0.05), transparent 60%),
+    linear-gradient(135deg, #0f172a 0%, #0d1b2a 45%, #111827 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Info items: translucent chips with hover lift */
+body.dark-mode .info-section p {
+  background: rgba(255, 255, 255, 0.04);
+  color: #f3f7fb;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 6px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+body.dark-mode .info-section p:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Icons: teal pill with glow */
+body.dark-mode .info-section i {
+  background: linear-gradient(135deg, #00c896, #0fe0b2);
+  color: #0d1b2a;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 6px 14px rgba(0, 200, 150, 0.45);
+}
+body.dark-mode .info-section p:hover i {
+  filter: brightness(1.08);
+}
+
+/* Social badges: consistent with CTA */
+body.dark-mode .social-links a {
+  background: linear-gradient(135deg, #00c896, #0fe0b2);
+  color: #0d1b2a;
+  box-shadow: 0 8px 18px rgba(0, 200, 150, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+body.dark-mode .social-links a:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 26px rgba(0, 200, 150, 0.45);
+  filter: brightness(1.05);
+}
+/* Dashboard & About Cards – Dark Mode Upgrade */
+/* Shared card style */
+body.dark-mode .card,
+body.dark-mode .dashboard-container,
+body.dark-mode .about-container {
+  background: linear-gradient(180deg, rgba(22,30,46,0.92), rgba(18,25,39,0.92));
+  border: 1px solid rgba(0, 200, 150, 0.18);
+  border-radius: 16px;
+  color: #f3f7fb;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.dark-mode .card:hover,
+body.dark-mode .dashboard-container:hover,
+body.dark-mode .about-container:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 44px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Titles inside cards */
+body.dark-mode .dashboard-container h2,
+body.dark-mode .about-container h2,
+body.dark-mode .card h3 {
+  color: #eaf4fc;
+  border-bottom: 1px solid rgba(0, 200, 150, 0.2);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* About Page quote / highlight */
+body.dark-mode .about-quote {
+  background: rgba(0, 200, 150, 0.08);
+  border-left: 4px solid #00c896;
+  color: #cfeff2;
+  font-style: italic;
+  padding: 12px 18px;
+  border-radius: 6px;
+}
+
+/* Stats/transaction list cards inside dashboard */
+body.dark-mode .transaction-list {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 8px 16px rgba(0, 0, 0, 0.3);
+}
+body.dark-mode .transaction-list li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 10px 0;
+  color: #0f151b;
+}
+body.dark-mode .transaction-list li:last-child {
+  border-bottom: none;
+}
+
+/* Sidebar header row layout */
+.sidebar-header .nav-logo {
+    display: flex;
+    align-items: center;   /* keeps text aligned with logo vertically */
+    gap: 15px;             /* spacing between logo and text */
+    text-decoration: none;
+    color: white;
+}
+
+.sidebar-header .logo {
+    height: 40px;          /* adjust size */
+    border-radius: 6px;
+}
+
+.sidebar-header .app-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+}
+/* Collapsed Sidebar */
+.sidebar.collapsed {
+    width: 90px;
+}
+
+/* Logo + App Name */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.sidebar-header .logo {
+    height: 40px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.sidebar-header .app-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    white-space: nowrap;
+}
+
+/* Collapse button */
+.collapse-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+/* Links */
+.sidebar-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.sidebar-links a:hover {
+    background: var(--accent);
+}
+
+/* Hide text when collapsed */
+.sidebar.collapsed .app-name,
+.sidebar.collapsed .sidebar-links span {
+    display: none;
+}
+
+/* Main Content adjusts */
+.main-content {
+    margin-left: 230px;
+    transition: margin-left 0.3s ease;
+}
+.sidebar.collapsed ~ .main-content {
+    margin-left: 70px;
+}
+.footer {
+    margin-left: 230px;
+    transition: margin-left 0.3s ease;
+}
+.sidebar.collapsed ~ .footer {
+    margin-left: 70px;
+}
+
+
+/* Footer aligned with main-content */
+.footer {
+    background: #1e1e2f;
+    color: #fff;
+    padding: 15px 20px;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+
+    margin-left: 20px;   
+    transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is collapsed */
+.sidebar.collapsed ~ .footer {
+    margin-left: 70px;           /* ✅ match collapsed sidebar */
+}
+
+/* Fix for text-muted in dark mode */
+body.dark-mode .text-muted {
+    color: #d1d1d1 !important;  /* Light gray for dark backgrounds */
+}
+
+/* Optional: make tables also readable in dark mode */
+body.dark-mode .table {
+    color: #f1f1f1;
+}
+
+body.dark-mode .table thead {
+    background-color: #333;
+    color: #fff;
+}

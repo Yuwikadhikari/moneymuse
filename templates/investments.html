@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% block title %}Investments - MoneyMuse{% endblock %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container py-4">
+    <h2 class="mb-3">Investments</h2>
+    <p class="text-muted">Track and manage all your investments in one place — Fixed Deposits, Mutual Funds, and Shares.</p>
+
+    <!-- Summary + Graph -->
+    <div class="row mb-4">
+        <div class="col-md-9">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-3 border-0">
+                        <h6 class="text-muted">Fixed Deposits</h6>
+                        <h4 class="fw-bold text-success">RS {{ total_fd or 0 }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-3 border-0">
+                        <h6 class="text-muted">Mutual Funds</h6>
+                        <h4 class="fw-bold text-primary">RS {{ total_mutual or 0 }}</h4>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card shadow-sm p-3 border-0">
+                        <h6 class="text-muted">Shares</h6>
+                        <h4 class="fw-bold text-warning">RS {{ total_shares or 0 }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Graph -->
+        <div class="col-md-3">
+            <div class="card shadow-sm p-2 border-0">
+                <h6 class="text-center">Portfolio</h6>
+                <canvas id="investmentChart" style="height:180px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dropdown for Add Investment -->
+    <div class="dropdown mb-4">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="addInvestmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            + Add Investment
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="addInvestmentDropdown">
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addFDModal">Fixed Deposit</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addMFModal">Mutual Fund</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#addShareModal">Share</a></li>
+        </ul>
+    </div>
+
+
+    <!-- Fixed Deposits Card -->
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-bank"></i> Fixed Deposits</h5>
+            <span class="badge bg-light text-success">Total: RS {{ total_fd or 0 }}</span>
+        </div>
+        <div class="card-body">
+            {% if fixed_deposits %}
+            <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Bank</th>
+                            <th>Amount</th>
+                            <th>Rate (%)</th>
+                            <th>Maturity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fd in fixed_deposits %}
+                        <tr>
+                            <td><i class="bi bi-building"></i> {{ fd.name }}</td>
+                            <td><span class="badge bg-success">RS {{ fd.amount }}</span></td>
+                            <td>{{ fd.interest_rate }}%</td>
+
+                            <td><span class="text-muted">{{ fd.maturity_date }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center">No fixed deposits added yet.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#addFDModal">
+                + Add Fixed Deposit
+            </button>
+        </div>
+    </div>
+
+    <!-- Mutual Funds Card -->
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-graph-up"></i> Mutual Funds</h5>
+            <span class="badge bg-light text-primary">Total: RS {{ total_mutual or 0 }}</span>
+        </div>
+        <div class="card-body">
+            {% if mutual_funds %}
+            <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fund Name</th>
+                            <th>Units</th>
+                            <th>NAV (RS)</th>
+                            <th>Current Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mf in mutual_funds %}
+                        <tr>
+                            <td>{{ mf.name }}</td>
+                            <td>{{ mf.units }}</td>
+                            <td>RS {{ mf.purchase_price }}</td>
+                            <td><span class="badge bg-primary">RS {{ mf.current_value }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center">No mutual funds added yet.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addMFModal">
+                + Add Mutual Fund
+            </button>
+        </div>
+    </div>
+
+    <!-- Shares Card -->
+    <div class="card shadow-lg border-0 mb-4">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h5 class="mb-0"><i class="bi bi-currency-exchange"></i> Shares</h5>
+            <span class="badge bg-dark text-warning">Total: RS {{ total_shares or 0 }}</span>
+        </div>
+        <div class="card-body">
+            {% if shares %}
+            <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Company</th>
+                            <th>Shares</th>
+                            <th>Price (RS)</th>
+                            <th>Total Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s in shares %}
+                        <tr>
+                            <td><i class="bi bi-building"></i> {{ s.name }}</td>
+                            <td>{{ s.units }}</td>
+                            <td>RS {{ s.purchase_price }}</td>
+                            <td><span class="badge bg-warning text-dark">RS {{ s.current_value }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center">No shares added yet.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer text-end">
+            <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#addShareModal">
+                + Add Share
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Fixed Deposit Modal -->
+<div class="modal fade" id="addFDModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('add_investment') }}">
+        <input type="hidden" name="investment_type" value="fixed_deposit">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Add Fixed Deposit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Bank Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Amount (RS)</label>
+            <input type="number" step="0.01" name="amount" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Interest Rate (%)</label>
+            <input type="number" step="0.1" name="rate" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Maturity Date</label>
+            <input type="date" name="maturity_date" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Mutual Fund Modal -->
+<div class="modal fade" id="addMFModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('add_investment') }}">
+        <input type="hidden" name="investment_type" value="mutual_fund">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">Add Mutual Fund</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Fund Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Units</label>
+            <input type="number" step="0.01" name="units" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">NAV (RS)</label>
+            <input type="number" step="0.01" name="nav" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Current Value (RS)</label>
+            <input type="number" step="0.01" name="current_value" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="addShareModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('add_investment') }}">
+        <input type="hidden" name="investment_type" value="share">
+        <div class="modal-header bg-warning">
+          <h5 class="modal-title">Add Share</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Company</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" step="1" name="quantity" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Price (RS)</label>
+            <input type="number" step="0.01" name="price" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Total Value (RS)</label>
+            <input type="number" step="0.01" name="total_value" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-warning">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Chart Script -->
+<script>
+const ctx = document.getElementById('investmentChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['FD', 'Mutual Funds', 'Shares'],
+        datasets: [{
+            label: 'Amount (RS)',
+            data: [{{ total_fd or 0 }}, {{ total_mutual or 0 }}, {{ total_shares or 0 }}],
+            backgroundColor: ['#28a745', '#007bff', '#ffc107']
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+</script>
+{% endblock %}
